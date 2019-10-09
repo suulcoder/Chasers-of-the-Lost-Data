@@ -55,25 +55,52 @@ def printData(data):
 			print(f'{title}: {info}')
 		print('\n')
 
+"""
+In order to make this function work, data must be a list of 
+dictonaries that contains the data. For that use de dataParser
+function"""
+def getLostData(data,name):
+	Parsedlist = []
+	titles = []
+	for event in data:
+		trainList = []
+		for title,info in event.items():
+			if(titles.count(title)==0):
+				titles.append(title)
+			try:
+				trainList.append(float(info))
+			except:
+				if(info==''):
+					trainList.append(np.nan)
+		print('\n')
+		Parsedlist.append(trainList)
+	imp = IterativeImputer(max_iter=10, random_state=0)
+	imp.fit(Parsedlist)  
+	IterativeImputer(add_indicator=True, estimator=None,
+	                 imputation_order='ascending', initial_strategy='mean',
+	                 max_iter=10, max_value=None, min_value=None,
+	                 missing_values=np.nan, n_nearest_features=None,
+	                 random_state=0, sample_posterior=False, tol=0.001,
+	                 verbose=0)		
+	newData = np.round(imp.transform(Parsedlist))
+	with open(name, mode='w') as data_file:
+		data_file = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		data_file.writerow(titles)
+		for currentData in newData:
+			data_file.writerow(currentData)
+	print("Check " + name + " for the new data")
+
+
 #------------------------------------------------------------------------------
-imp = IterativeImputer(max_iter=10, random_state=0)
-imp.fit([[1, 2], [3, 6], [4, 8], [np.nan, 3], [7, np.nan]])  
-IterativeImputer(add_indicator=False, estimator=None,
-                 imputation_order='ascending', initial_strategy='mean',
-                 max_iter=10, max_value=None, min_value=None,
-                 missing_values=nan, n_nearest_features=None,
-                 random_state=0, sample_posterior=False, tol=0.001,
-                 verbose=0)
-X_test = [[np.nan, 2], [6, np.nan], [np.nan, 6]]
+
  # the model learns that the second feature is double the first
- print(np.round(imp.transform(X_test)))
 
-
-# Parsed info of the csv's
 
 fireballAndBolideReports = dataParser('Fireball_And_Bolide_Reports.csv')
+getLostData(fireballAndBolideReports,'TestFireball_And_Bolide_Reports.csv')
+fireballAndBolideReports = dataParser('TestFireball_And_Bolide_Reports.csv')
 printData(fireballAndBolideReports)
-
+# Parsed info of the csv's
 """
 meteorLandings = dataParser('Meteorite_Landings.csv')
 printData(meteorLandings)
@@ -83,5 +110,4 @@ printData(GLC03122015)
 
 NearEarthCometsOrbitalElements = dataParser('Near-Earth_Comets_-_Orbital_Elements.csv')
 printData(NearEarthCometsOrbitalElements)
-
 """
