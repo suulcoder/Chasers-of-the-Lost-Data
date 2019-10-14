@@ -72,7 +72,6 @@ def getLostData(data,name):
 			except:
 				if(info==''):
 					trainList.append(np.nan)
-		print('\n')
 		Parsedlist.append(trainList)
 	imp = IterativeImputer(max_iter=10, random_state=0)														#Using python library
 	imp.fit(Parsedlist)  
@@ -98,8 +97,9 @@ def getLostData(data,name):
 
 fireballAndBolideReports = dataParser('Fireball_And_Bolide_Reports.csv')
 getLostData(fireballAndBolideReports,'TestFireball_And_Bolide_Reports.csv')
-fireballAndBolideReports = dataParser('TestFireball_And_Bolide_Reports.csv')
-printData(fireballAndBolideReports)
+#fireballAndBolideReports = dataParser('TestFireball_And_Bolide_Reports.csv')
+#printData(fireballAndBolideReports)
+print(fireballAndBolideReports[-1]['Velocity (km/s)'])
 # Parsed info of the csv's
 """
 meteorLandings = dataParser('Meteorite_Landings.csv')
