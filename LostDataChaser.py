@@ -98,8 +98,7 @@ def getLostData(data,name):
 fireballAndBolideReports = dataParser('Fireball_And_Bolide_Reports.csv')
 getLostData(fireballAndBolideReports,'TestFireball_And_Bolide_Reports.csv')
 #fireballAndBolideReports = dataParser('TestFireball_And_Bolide_Reports.csv')
-#printData(fireballAndBolideReports)
-print(fireballAndBolideReports[-1]['Velocity (km/s)'])
+printData(fireballAndBolideReports)
 # Parsed info of the csv's
 """
 meteorLandings = dataParser('Meteorite_Landings.csv')
