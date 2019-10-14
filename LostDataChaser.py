@@ -72,7 +72,6 @@ def getLostData(data,name):
 			except:
 				if(info==''):
 					trainList.append(np.nan)
-		print('\n')
 		Parsedlist.append(trainList)
 	imp = IterativeImputer(max_iter=10, random_state=0)														#Using python library
 	imp.fit(Parsedlist)  
