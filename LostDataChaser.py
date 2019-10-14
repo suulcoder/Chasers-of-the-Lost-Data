@@ -60,7 +60,7 @@ In order to make this function work, data must be a list of
 dictonaries that contains the data. For that use de dataParser
 function"""
 def getLostData(data,name):
-	Parsedlist = []
+	Parsedlist = []																							#Getting all the information in lists
 	titles = []
 	for event in data:
 		trainList = []
@@ -74,7 +74,7 @@ def getLostData(data,name):
 					trainList.append(np.nan)
 		print('\n')
 		Parsedlist.append(trainList)
-	imp = IterativeImputer(max_iter=10, random_state=0)
+	imp = IterativeImputer(max_iter=10, random_state=0)														#Using python library
 	imp.fit(Parsedlist)  
 	IterativeImputer(add_indicator=True, estimator=None,
 	                 imputation_order='ascending', initial_strategy='mean',
