@@ -61,12 +61,9 @@ dictonaries that contains the data. For that use de dataParser
 function"""
 def getLostData(data,name):
 	Parsedlist = []																							#Getting all the information in lists
-	titles = []
 	for event in data:
 		trainList = []
 		for title,info in event.items():
-			if(titles.count(title)==0):
-				titles.append(title)
 			try:
 				trainList.append(float(info))
 			except:
@@ -82,6 +79,28 @@ def getLostData(data,name):
 	                 random_state=0, sample_posterior=False, tol=0.001,
 	                 verbose=0)		
 	newData = np.round(imp.transform(Parsedlist))
+	titles = []
+	counter1 = 0
+	Parsedlist = []
+	for event in data:
+		trainList = []
+		counter2 = 0
+		for title,info in event.items():
+			try:
+				trainList.append(float(info))
+				counter2 += 1
+			except:
+				if(info==''):
+					counter2 += 1
+			if(titles.count(title)==0):
+				titles.append(title)
+			if(info==''):
+				trainList.append(newData[counter1][counter2])
+			else:
+				trainList.append(info)
+		counter1 += 1
+		Parsedlist.append(trainList)
+	newData = Parsedlist
 	with open(name, mode='w') as data_file:
 		data_file = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		data_file.writerow(titles)
@@ -98,7 +117,7 @@ def getLostData(data,name):
 fireballAndBolideReports = dataParser('Fireball_And_Bolide_Reports.csv')
 getLostData(fireballAndBolideReports,'TestFireball_And_Bolide_Reports.csv')
 #fireballAndBolideReports = dataParser('TestFireball_And_Bolide_Reports.csv')
-printData(fireballAndBolideReports)
+#printData(fireballAndBolideReports)
 # Parsed info of the csv's
 """
 meteorLandings = dataParser('Meteorite_Landings.csv')
