@@ -72,7 +72,7 @@ def getLostData(data,name):
 	IterativeImputer(add_indicator=True, estimator=None,
 	                 imputation_order='ascending', initial_strategy='mean',
 	                 max_iter=10, max_value=None, min_value=None,
-	                 missing_values=np.nan, n_nearest_features=None,
+	                 missing_values=np.	nan, n_nearest_features=None,
 	                 random_state=0, sample_posterior=False, tol=0.001,
 	                 verbose=0)		
 	newData = np.round(imp.transform(Parsedlist))
