@@ -8,8 +8,6 @@
 		-Saúl Contreras (SuulCoder)
 		-Luis Quezada (Lfquezada)
 		-Marco Fuentes
-		-Justin Trigueros
-		-Jonathan Pu
 
 	Use: 
 
@@ -17,7 +15,6 @@
 		some sensors of the Nasa. This is a proyect for the SpaceApp 
 		Challege 2019. This algorithm uses a Machine Learning
 		process, libraries from Python and statistics regressions. 
-
 
 -------------------------------------------------------------------------------
 """
@@ -87,7 +84,7 @@ def getLostData(data,name):
 		counter2 = 0
 		for title,info in event.items():
 			try:
-				trainList.append(float(info))
+				x = float(info)
 				counter2 += 1
 			except:
 				if(info==''):
