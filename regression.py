@@ -188,6 +188,9 @@ class Chaser(object):
 
 
   def printData(self,data):
+    """
+      print all parsed data
+    """
     for event in data:
       for title,info in event.items():
         print(f'{title}: {info}')
@@ -195,6 +198,9 @@ class Chaser(object):
       
 
   def getDataToChase(self):
+    """
+      Get data to chase, the data to complete
+    """
     realData = []
     data = self.dataParser(self.filename)
     Parsedlist = []                                             #Getting all the information in lists
@@ -255,6 +261,9 @@ class Chaser(object):
                   self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
 
   def store(self):
+    """
+      Store all the data in a csv name
+    """
     name = "Test_" + self.filename
     with open(name, mode='w') as data_file:
       data_file = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
