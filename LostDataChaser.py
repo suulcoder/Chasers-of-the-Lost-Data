@@ -68,6 +68,7 @@ def getLostData(data,name):
 					trainList.append(np.nan)
 		Parsedlist.append(trainList)
 	imp = IterativeImputer(max_iter=10, random_state=0)														#Using python library
+	print(Parsedlist)
 	imp.fit(Parsedlist)  
 	IterativeImputer(add_indicator=True, estimator=None,
 	                 imputation_order='ascending', initial_strategy='mean',
@@ -111,8 +112,8 @@ def getLostData(data,name):
  # the model learns that the second feature is double the first
 
 
-fireballAndBolideReports = dataParser('Fireball_And_Bolide_Reports.csv')
-getLostData(fireballAndBolideReports,'TestFireball_And_Bolide_Reports.csv')
+fireballAndBolideReports = dataParser('Meteorite_Landings.csv')
+getLostData(fireballAndBolideReports,'TestMeteorite_Landings.csv')
 #fireballAndBolideReports = dataParser('TestFireball_And_Bolide_Reports.csv')
 #printData(fireballAndBolideReports)
 # Parsed info of the csv's
