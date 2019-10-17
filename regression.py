@@ -114,6 +114,9 @@ class Chaser(object):
     self.currentData = []
     self.titles = []
     self.allTitles = []
+    self.indexes = []
+    self.index = []
+    self.realData = []
 
   def trainDataBuilder(self):
     """
@@ -124,6 +127,7 @@ class Chaser(object):
     data = []
     allTitles = []
     titles = []
+    index = []
     with open(self.filename) as csv_file:
       csv_reader = csv.reader(csv_file, delimiter=',')
       line = 0
@@ -141,6 +145,8 @@ class Chaser(object):
             for element in row:
               try:
                 currentRow.append(float(element))
+                if(index.count(count)==0):
+                  index.append(count)
                 if(titles.count(allTitles[count])==0):
                   titles.append(allTitles[count])
               except:
@@ -156,50 +162,56 @@ class Chaser(object):
     self.trainData = self.Transposed(data) 
     self.titles = titles
     self.allTitles = allTitles
+    self.index = index
     return titles
 
   def Transposed(self,matrix):
-    result = []
-    row = 0 
-    for i in matrix:
-      column = 0 
-      newRow = []
-      for j in i:
-        try:
-          newRow.append(matrix[column][row])
-        except:
-          pass
-        column+=1
-      row+=1
-      result.append(newRow)
-    return result
+    res = [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
+    return res
 
-  def getDataToChase(self):
-    indexes=[]
-    matrix=[]
-    with open(self.filename) as csv_file:
+  def dataParser(self,fileName):
+    data = []
+    with open(fileName) as csv_file:
       csv_reader = csv.reader(csv_file, delimiter=',')
       line = 0
-      for currentRow in csv_reader:
-        row = []
-        if(line!=0):
-          if(line==1):
-            index_count = 0
-            for element in currentRow:
-              try:
-                float(element)
-                indexes.append(index_count)
-                index_count+=1
-              except:
-                index_count+=1
-          for index in indexes:
-            if(currentRow[index]!=''):
-              row.append(Value(float(currentRow[index]),float(currentRow[index]),float(currentRow[index])))
-            else:
-              row.append('')
-          matrix.append(row)
-        line+=1
-      self.currentData = self.Transposed(matrix)
+      for row in csv_reader:
+        objInfo = {}
+        if line == 0:
+          titles = row
+        else:
+          for i in range(len(row)):
+            objInfo[titles[i]] = row[i]
+          data.append(objInfo)
+        line += 1
+      print(f'{line} events processed.')
+      return data
+
+
+  def printData(self,data):
+    for event in data:
+      for title,info in event.items():
+        print(f'{title}: {info}')
+      print('\n')
+      
+
+  def getDataToChase(self):
+    realData = []
+    data = self.dataParser(self.filename)
+    Parsedlist = []                                             #Getting all the information in lists
+    for event in data:
+      trainList = []
+      realList = []
+      for title,info in event.items():
+        realList.append(info)
+        try:
+          trainList.append(Value(float(info),float(info),float(info)))
+        except:
+          if(info==''):
+            trainList.append('')
+      Parsedlist.append(trainList)
+      realData.append(realList)
+    self.realData = realData
+    self.currentData = self.Transposed(Parsedlist)
 
   def LinearRegression(self):
     """
@@ -215,25 +227,32 @@ class Chaser(object):
       indexes = []
       for j in range(0,len(self.titles)):
         if(i!=j):
-          X, y = self.trainData[j], self.trainData[i]
-          model.fit(X, y)
-          unc = model.score(X, y)
+          X = file.iloc[:, i].values.reshape(-1, 1)  # values converts it into a numpy array
+          Y = file.iloc[:, j].values.reshape(-1, 1)  # -1 means that calculate the dimension of rows, but have 1 column
+          model.fit(X, Y)  # perform linear regression
+          unc = model.score(X, Y)
           if(j==0):
             count = 0
             for element in self.currentData[i]:
                 if(element==''):
                   indexes.append(count)
                   try:
-                    t = model.predict(currentData[j][count].getValue())
-                    element = Value(t,t-unc,t+unc)
+                    t = (model.coef_)*(self.currentData[j][count].getValue())+model.intercept_
+                    t = t[0][0]
+                    element = Value(t,t-(unc*t),t+(unc*t))
                   except:
                     pass
                 count+=1
           else:
+            self.indexes = indexes
             for index in indexes:
-              t = model.predict(currentData[j][index].getValue())
-              currentData[i][index].add(t,t-unc,t+unc)
-
+              if(self.currentData[j][index]!=''):
+                t = (model.coef_)*(self.currentData[j][index].getValue())+model.intercept_
+                t = t[0][0]
+                try:
+                  self.currentData[i][index].add(t,t-(unc*t),t+(unc*t))
+                except:
+                  self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
 
   def store(self):
     name = "Test_" + self.filename
@@ -241,10 +260,25 @@ class Chaser(object):
       data_file = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
       data_file.writerow(self.allTitles)
       matrix = self.Transposed(self.currentData)
+      firstCount=0
       for row in matrix:
+        values = []
+        count = 0
         for element in row:
-          element = element.getValue()
-        data_file.writerow(row)
+          if(element!=''):
+            values.append(str(element.getValue()) + " ±" + str(element.getValue() - element.getBottom()))
+          else:
+            values.append('') 
+          if(self.index.count(count)==0):
+            values.insert(count,self.realData[firstCount][count])  
+          count+=1
+        index_count = 0
+        for val in values:
+          print(self.allTitles[index_count] + ": " + str(val))
+          index_count+=1
+        print("\n")
+        data_file.writerow(values)
+        firstCount+=1
       print("Data stored in " + name)
 
 #------------------------------------------------------------------------------
