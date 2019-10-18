@@ -128,35 +128,48 @@ class Chaser(object):
     allTitles = []
     titles = []
     index = []
+    titlesToKeepIndexes = []
     with open(self.filename) as csv_file:
       csv_reader = csv.reader(csv_file, delimiter=',')
       line = 0
       for row in csv_reader:
-        if(line==0):
-          allTitles=row
+        if(line==0): # means row 0 is titles only
+          for title in row:
+            if title != '':
+              allTitles.append(title) # key is to only use the titles that exist
         else:
-          control = True
-          for element in row:
-            if(element==''):
-              control = False
-          if(control):
-            count = 0
-            currentRow = []
-            for element in row:
+          if line == 1: # to save which titles are not numeric and need to be removed later
+            count = -1
+            for element in row[:len(allTitles)]:
               try:
-                currentRow.append(float(element))
-                if(index.count(count)==0):
-                  index.append(count)
-                if(titles.count(allTitles[count])==0):
-                  titles.append(allTitles[count])
+                count += 1
+                element = float(element)
+                titlesToKeepIndexes.append(count)
               except:
                 pass
-              count+=1
+
+          isMissing = False
+          for elementIndex in range(len(allTitles)):
+            if(row[elementIndex]==''):
+              isMissing = True
+              break
+          if(not isMissing):
+            currentRow = []
+            for element in row[:len(allTitles)]:
+              try:
+                currentRow.append(float(element))
+              except:
+                pass
             data.append(currentRow)
         line+=1
+
+    trainDataCSVTitles = []
+    for titleIndex in titlesToKeepIndexes:
+      trainDataCSVTitles.append(allTitles[titleIndex])
+
     with open('trainData.csv', mode='w') as data_file:
       data_file = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-      data_file.writerow(titles)
+      data_file.writerow(trainDataCSVTitles)
       for currentData in data:
         data_file.writerow(currentData)
     self.trainData = self.Transposed(data) 
@@ -297,6 +310,6 @@ class Chaser(object):
 #------------------------------------------------------------------------------
 DataChaser = Chaser('Meteorite_Landings.csv')
 DataChaser.trainDataBuilder()
-DataChaser.getDataToChase()
-DataChaser.LinearRegression()
-DataChaser.store()
+#DataChaser.getDataToChase()
+#DataChaser.LinearRegression()
+#DataChaser.store()
