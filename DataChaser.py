@@ -1,7 +1,7 @@
 """
 -------------------------------------------------------------------------------
   
-  Name: regression
+  Name: DataChaser
   Format: .py
   Autors: 
     -Saúl Contreras (SuulCoder)
