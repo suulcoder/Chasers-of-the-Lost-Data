@@ -166,8 +166,12 @@ class Chaser(object):
     return titles
 
   def Transposed(self,matrix):
-    res = [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
-    return res
+    try:
+      return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]  
+    except Exception as e:
+      print("""Please check that the data is correct or:
+           -eliminate the category that contains floats and strings at the same time.
+           -eliminate the category that has strings and empty spaces at the same time""")
 
   def dataParser(self,fileName):
     data = []
@@ -236,7 +240,7 @@ class Chaser(object):
           X = file.iloc[:, i].values.reshape(-1, 1)  # values converts it into a numpy array
           Y = file.iloc[:, j].values.reshape(-1, 1)  # -1 means that calculate the dimension of rows, but have 1 column
           model.fit(X, Y)  # perform linear regression
-          unc = model.score(X, Y)
+          unc = 1-model.score(X, Y)
           if(j==0):
             count = 0
             for element in self.currentData[i]:
@@ -275,7 +279,7 @@ class Chaser(object):
         count = 0
         for element in row:
           if(element!=''):
-            values.append(str(element.getValue()) + " ±" + str(element.getValue() - element.getBottom()))
+            values.append(element.getValue())
           else:
             values.append('') 
           if(self.index.count(count)==0):
@@ -291,7 +295,7 @@ class Chaser(object):
       print("Data stored in " + name)
 
 #------------------------------------------------------------------------------
-DataChaser = Chaser('Fireball_And_Bolide_Reports.csv')
+DataChaser = Chaser('GLC03122015.csv')
 DataChaser.trainDataBuilder()
 DataChaser.getDataToChase()
 DataChaser.LinearRegression()
