@@ -18,7 +18,7 @@ You´ll need to install using pip3 install command:
 pip3 install pandas
 pip3 install pandas
 pip3 install numpy
-pip3 install DataChaser
+pip install -i https://test.pypi.org/simple/ DataChaser
 ```
 
 ## Running ⚙️
