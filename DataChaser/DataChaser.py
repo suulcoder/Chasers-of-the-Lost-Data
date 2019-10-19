@@ -295,8 +295,3 @@ class Chaser(object):
       print("Data stored in " + name)
 
 #------------------------------------------------------------------------------
-DataChaser = Chaser('Fireball_And_Bolide_Reports.csv')
-DataChaser.trainDataBuilder()
-DataChaser.getDataToChase()
-DataChaser.LinearRegression()
-DataChaser.store()
