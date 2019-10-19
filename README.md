@@ -1,27 +1,56 @@
-# Chasers of the Lost Data
+#Data Chaser
+Data Chaser is a library that autocompletes the empty fields in a csv file. Data Chaser use Artifitial Intelignece based 
+on multiple regressions, updating the values based un the uncertanty of the regressions to get the new updated values and
+uncertainties. 
 
-## About
-The Challenge Help find ways to improve the performance of machine learning and predictive models by filling in gaps in the datasets prior to model training. This entails finding methods to computationally recover or approximate data that is missing due to sensor issues or signal noise that compromises experimental data collection. This work is inspired by data collection during additive manufacturing (AM) processes where sensors capture build characteristics in-situ, but it has applications across many NASA domains.
+## Getting Started 🚀
 
-## Requirements
-- Install Python3
-- Install Numpy
+This script was develop in Python and uses Pandas, Numpy, Sklearn and CSV python libraries there are three important files:
+  
+	```
+	Install Python 3.6 or a newer version
+	Intall Pip
+	```
+
+### Prerequisites 📋
+
+You´ll need to install using pip install command: 
+
+
 ```
-pip3 install numpy
+pip install pandas
+pip install pandas
+pip install numpy
+pip install DataChaser
 ```
-- Install Pandas
-```
-pip3 install pandas
-```
-- Install Sklearn
-```
-pip3 install sklearn
-```
+
+You must use pip3 instead of pip. 
+
+## Running⚙️
+
+Import Library and run it.
+
+
+## Build With 🛠️
+
+Sublime Text and LINUX MINT
 
 ## Documentation
-[]
 
-## Authors
-* **Saúl Contreras (SuulCoder)**
-* **Luis Quezada (Lfquezada)**
-* **Marco Fuentes**
+	
+To start with DataChaser you must instantiate a class after import the library
+	
+	'''
+	DataChaser = Chaser({Path of the input File} ,{Path of the output File})
+	'''
+	
+Then run the following methods of the class:
+
+	'''
+		DataChaser.trainDataBuilder()
+		DataChaser.getDataToChase()
+		DataChaser.LinearRegression()
+		DataChaser.store()
+	'''
+
+
