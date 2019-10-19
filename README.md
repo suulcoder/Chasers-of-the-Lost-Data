@@ -5,11 +5,11 @@ ranges.
 
 ## Getting Started 🚀
 
-This script was developed in Python and uses Pandas, Numpy, Sklearn and CSV python libraries.
-
+This script was develop in Python and uses Pandas, Numpy, Sklearn and CSV python libraries there are three important files:
+  	'''
 	Install Python 3.6 or a newer version
 	Intall Pip
-	
+	'''
 
 ### Prerequisites 📋
 
@@ -35,17 +35,13 @@ Sublime Text and LINUX MINT
 	
 To start with DataChaser you must instantiate a class after import the library
 	
-	'''
 	DataChaser = Chaser({Path of the input File} ,{Path of the output File})
-	'''
 	
 Then run the following methods of the class:
 
-	'''
 		DataChaser.trainDataBuilder()
 		DataChaser.getDataToChase()
 		DataChaser.LinearRegression()
 		DataChaser.store()
-	'''
 
 
