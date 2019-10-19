@@ -9,5 +9,9 @@ setup(
   url = 'https://github.com//suulcoder/Chasers-of-the-Lost-Data', # use the URL to the github repo
   download_url = '  https://github.com//suulcoder/Chasers-of-the-Lost-Data/tarball/0.1',
   keywords = ['AI', 'autocomplete', 'CSV','NASA','sensors'],
-  classifiers = [],
+  classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+  ],
 )
