@@ -22,7 +22,6 @@ pip3 install sklearn
 []
 
 ## Authors
-
-* **Luis Quezada** - *18028*
-* **Andre Toledo** - *18439*
-* **Esteban del Valle** - *18221*
+* **Saúl Contreras (SuulCoder)**
+* **Luis Quezada (Lfquezada)**
+* **Marco Fuentes**
