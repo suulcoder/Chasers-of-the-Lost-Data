@@ -7,7 +7,7 @@
     -Saúl Contreras (SuulCoder)
     -Luis Quezada (Lfquezada)
     -Marco Fuentes
-
+'Fireball_And_Bolide_Reports.csv'
   Use: 
 
     This program is useful to recover the data that has been lost by
@@ -87,7 +87,7 @@ class Value(object):
 
 #------------------------------------------------------------------------------
 
-class Chaser(object):
+class Chaser(_PackageBoundObject):
   """This class represents the chase that will do all the logic for an 
     specific incomplete data stored in a .csv document. 
 
@@ -107,10 +107,11 @@ class Chaser(object):
       -store
 
   """
-  def __init__(self, filename):
+  def __init__(self, filename,saveFile):
     super(Chaser, self).__init__()
     self.filename = filename
     self.trainData = []
+    self.saveFile = saveFile
     self.currentData = []
     self.titles = []
     self.allTitles = []
@@ -268,7 +269,7 @@ class Chaser(object):
     """
       Store all the data in a csv name
     """
-    name = "Test_" + self.filename
+    name = self.saveFile
     with open(name, mode='w') as data_file:
       data_file = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
       data_file.writerow(self.allTitles)

@@ -1,17 +1,22 @@
-from distutils.core import setup
-setup(
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
   name = 'DataChaser',
-  packages = ['DataChaser'], # this must be the same as the name above
-  version = '0.1',
-  description = 'This packages autocompletes the information that is lost in a CSV using AI',
+  version = '0.2',
   author = 'SuulCoder',
   author_email = 'saulcontreras@acm.org',
+  description = 'This packages autocompletes the information that is lost in a CSV using AI',
+  long_description=long_description,
+  long_description_content_type="text/markdown",
   url = 'https://github.com//suulcoder/Chasers-of-the-Lost-Data', # use the URL to the github repo
-  download_url = '  https://github.com//suulcoder/Chasers-of-the-Lost-Data/tarball/0.1',
-  keywords = ['AI', 'autocomplete', 'CSV','NASA','sensors'],
+  packages=setuptools.find_packages(),
   classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
   ],
+  python_requires=">=3.4"
 )

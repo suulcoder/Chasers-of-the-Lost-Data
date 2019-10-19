@@ -44,4 +44,4 @@ Then run the following methods of the class:
 		DataChaser.LinearRegression()
 		DataChaser.store()
 
-
+Check your output file, and remember that while more information your input file has, the library is better. 
