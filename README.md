@@ -1,32 +1,27 @@
-#Data Chaser
-Data Chaser is a library that autocompletes the empty fields in a csv file. Data Chaser use Artifitial Intelignece based 
+# Data Chaser
+Data Chaser is a library that autocompletes empty fields in a csv file. Data Chaser uses Artifitial Intelignece based 
 on multiple regressions, updating the values based un the uncertanty of the regressions to get the new updated values and
-uncertainties. 
+ranges. 
 
 ## Getting Started 🚀
 
-This script was develop in Python and uses Pandas, Numpy, Sklearn and CSV python libraries there are three important files:
-  
-	```
+This script was developed in Python and uses Pandas, Numpy, Sklearn and CSV python libraries.
+
 	Install Python 3.6 or a newer version
 	Intall Pip
-	```
+	
 
 ### Prerequisites 📋
 
-You´ll need to install using pip install command: 
-
-
+You´ll need to install using pip3 install command: 
 ```
-pip install pandas
-pip install pandas
-pip install numpy
-pip install DataChaser
+pip3 install pandas
+pip3 install pandas
+pip3 install numpy
+pip3 install DataChaser
 ```
 
-You must use pip3 instead of pip. 
-
-## Running⚙️
+## Running ⚙️
 
 Import Library and run it.
 
