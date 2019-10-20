@@ -1,19 +1,19 @@
 """
 -------------------------------------------------------------------------------
-  
+
   Name: DataChaser
   Format: .py
-  Autors: 
+  Autors:
     -Saúl Contreras (SuulCoder)
     -Luis Quezada (Lfquezada)
-    -Marco Fuentes
+    -Marco Fuentes (marcofuentes05)
 'Fireball_And_Bolide_Reports.csv'
-  Use: 
+  Use:
 
     This program is useful to recover the data that has been lost by
-    some sensors of the Nasa. This is a proyect for the SpaceApp 
+    some sensors of the Nasa. This is a proyect for the SpaceApp
     Challege 2019. This algorithm uses a Machine Learning
-    process, libraries from Python and statistics regressions. 
+    process, libraries from Python and statistics regressions.
 
 -------------------------------------------------------------------------------
 """
@@ -23,18 +23,18 @@ import pandas as pd #import the pandas module
 import numpy as np
 import csv
 from sklearn.linear_model import LinearRegression
-
+from sklearn.preprocessing import PolynomialFeatures # So that we can work with non linear models
 #------------------------------------------------------------------------------
 
 class Value(object):
-  """This class represents a value that has uncertainty. 
-    The objective for this class is to reduce the 
+  """This class represents a value that has uncertainty.
+    The objective for this class is to reduce the
     uncertainty based on differnt models given by the
-    user. Based on posible values with an uncertainty to 
+    user. Based on posible values with an uncertainty to
     get a value with no uncertainty.
 
     atributes:
-      
+
       -value: float type, has the current value
       -bottom: float type that has the low limit of the uncertainty
       -top: float type that has the top value of the uncertaintly
@@ -53,14 +53,14 @@ class Value(object):
     self.value = value
     self.bottom = bottom
     self.top = top
-  
+
   def add(self,value,bottom,top):
-    """add: This method recevies the following parameters: 
+    """add: This method recevies the following parameters:
 
         value: float type with a possible value
         bottom: its low uncertainty
         top: its up uncertainty
-        
+
         This method is useful to add a new possible value and uncertainty
         to the Value class and update the information
     """
@@ -88,8 +88,8 @@ class Value(object):
 #------------------------------------------------------------------------------
 
 class Chaser(object):
-  """This class represents the chase that will do all the logic for an 
-    specific incomplete data stored in a .csv document. 
+  """This class represents the chase that will do all the logic for an
+    specific incomplete data stored in a .csv document.
 
     atributes:
       -Filename: It contains the path of the .csv file
@@ -121,9 +121,9 @@ class Chaser(object):
 
   def trainDataBuilder(self):
     """
-      This function get all the data that is useful as reference to get 
-      points for do the different types of regressions.  It returns a 
-      list of strings with the names of the categories. 
+      This function get all the data that is useful as reference to get
+      points for do the different types of regressions.  It returns a
+      list of strings with the names of the categories.
     """
     data = []
     allTitles = []
@@ -160,7 +160,7 @@ class Chaser(object):
       data_file.writerow(titles)
       for currentData in data:
         data_file.writerow(currentData)
-    self.trainData = self.Transposed(data) 
+    self.trainData = self.Transposed(data)
     self.titles = titles
     self.allTitles = allTitles
     self.index = index
@@ -168,7 +168,7 @@ class Chaser(object):
 
   def Transposed(self,matrix):
     try:
-      return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]  
+      return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
     except Exception as e:
       print("""Please check that the data is correct or:
            -eliminate the category that contains floats and strings at the same time.
@@ -200,7 +200,7 @@ class Chaser(object):
       for title,info in event.items():
         print(f'{title}: {info}')
       print('\n')
-      
+
 
   def getDataToChase(self):
     """
@@ -226,8 +226,8 @@ class Chaser(object):
 
   def LinearRegression(self):
     """
-      This function will get all possible values for the empty spaces 
-      based on liner regression. It receives a list of strings with 
+      This function will get all possible values for the empty spaces
+      based on liner regression. It receives a list of strings with
       the name of the parameters and it will return a list of possible
       Value type (Class)
     """
@@ -265,6 +265,116 @@ class Chaser(object):
                 except:
                   self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
 
+def cuadraticRegression(self):
+    file = pd.read_csv ('trainData.csv', sep=',')
+    pf = PolynomialFeatures(degree = 2)
+    result = []
+    for i in range(0,len(self.titles)):
+      indexes = []
+      for j in range(0,len(self.titles)):
+        if(i!=j):
+          X = file.iloc[:, i].values.reshape(-1, 1)  # values converts it into a numpy array
+          Y = file.iloc[:, j].values.reshape(-1, 1)  # -1 means that calculate the dimension of rows, but have 1 column
+
+          X_1 = pf.fit_transform(X.reshape(-1,1))
+          model = LinearRegression()
+          model.fit(X_1, Y)  # perform linear regression
+
+          # print(str(model.coef_))
+          unc = 1-model.score(X_1, Y)
+          if(j==0):
+            count = 0
+            for element in self.currentData[i]:
+                if(element==''):
+                  indexes.append(count)
+                  try:
+                    t = (model.coef_[2])*(self.currentData[j][count].getValue())**2 + (model.coef_[1])*(self.currentData[j][count].getValue())+model.intercept_
+                    t = t[0][0]
+                    element = Value(t,t-(unc*t),t+(unc*t))
+                  except:
+                    pass
+                count+=1
+          else:
+            self.indexes = indexes
+            for index in indexes:
+              if(self.currentData[j][index]!=''):
+                t = (model.coef_)*(self.currentData[j][index].getValue())+model.intercept_
+                t = t[0][0]
+                try:
+                  self.currentData[i][index].add(t,t-(unc*t),t+(unc*t))
+                except:
+                  self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
+
+def cubicRegression(self):
+    file = pd.read_csv ('trainData.csv', sep=',')
+    pf = PolynomialFeatures(degree = 3)
+    result = []
+    for i in range(0,len(self.titles)):
+      indexes = []
+      for j in range(0,len(self.titles)):
+        if(i!=j):
+          X = file.iloc[:, i].values.reshape(-1, 1)  # values converts it into a numpy array
+          Y = file.iloc[:, j].values.reshape(-1, 1)  # -1 means that calculate the dimension of rows, but have 1 column
+
+          X_1 = pf.fit_transform(X.reshape(-1,1)) #Makes it polynomial
+          model = LinearRegression()
+          model.fit(X_1, Y)  # perform linear regression
+          unc = 1-model.score(X_1, Y)
+          if(j==0):
+            count = 0
+            for element in self.currentData[i]:
+                if(element==''):
+                  indexes.append(count)
+                  try:
+                    t = (model.coef_[3])*(self.currentData[j][count].getValue())**3 +(model.coef_[2])*(self.currentData[j][count].getValue())**2 + (model.coef_[1])*(self.currentData[j][count].getValue())+model.intercept_
+                    t = t[0][0]
+                    element = Value(t,t-(unc*t),t+(unc*t))
+                  except:
+                    pass
+                count+=1
+          else:
+            self.indexes = indexes
+            for index in indexes:
+              if(self.currentData[j][index]!=''):
+                t = (model.coef_)*(self.currentData[j][index].getValue())+model.intercept_
+                t = t[0][0]
+                try:
+                  self.currentData[i][index].add(t,t-(unc*t),t+(unc*t))
+                except:
+                  self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
+def isLike(self,current, toCompare,param):
+    """
+    This method evaluates 2 lists and returns true if their numerical values are similar. False otherwise
+    """
+    total = 0
+    size = len(current)
+    if (size != len(toCompare)):
+      return False
+    else:
+      for i in range(size):
+          try:
+              total += abs(current[i] - toCompare[i])/current[i]
+          except:
+              total +=0
+    prom = total/size
+    if (prom <= param):
+      return True
+    else:
+      return False
+
+def relativeRegression(self):
+    data = self.Transposed(self.currentData) #Python matrix
+    a = np.array(data) #numpy matrix
+    cont = 0
+    for i in range(len(a)):
+        for j in range(len(a[i])):
+            if (a[i][j] == ''):
+                for k in a:
+                    if (self.isLike(k,a[i],0.5) and k[j] != ''):
+                        a[i][j] = k[j]
+    data = a
+    self.currentData = self.Transposed(data)
+
   def store(self):
     """
       Store all the data in a csv name
@@ -282,9 +392,9 @@ class Chaser(object):
           if(element!=''):
             values.append(element.getValue())
           else:
-            values.append('') 
+            values.append('')
           if(self.index.count(count)==0):
-            values.insert(count,self.realData[firstCount][count])  
+            values.insert(count,self.realData[firstCount][count])
           count+=1
         index_count = 0
         for val in values:
