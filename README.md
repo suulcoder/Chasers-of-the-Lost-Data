@@ -22,7 +22,7 @@ ranges.In order to fill the empty fields we noticed that regressions have uncert
 
 ## Getting Started 🚀
 
-This script was develop in Python and uses Pandas, Numpy, Sklearn and CSV python libraries there are three important files:
+This script was developed in Python and uses Pandas, Numpy, Sklearn and CSV python libraries.
   	'''
 	Install Python 3.6 or a newer version
 	Intall Pip
