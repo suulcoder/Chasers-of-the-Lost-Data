@@ -65,10 +65,20 @@ To start with DataChaser you must instantiate a class after import the library
 	
 Then run the following methods of the class:
 
-		DataChaser.trainDataBuilder()
-		DataChaser.getDataToChase()
-		DataChaser.LinearRegression()
-		DataChaser.store()
+```
+ 	#You must run this methods if you want the chaser to work
+	DataChaser.trainDataBuilder()
+    	DataChaser.getDataToChase()
+    	
+	#Here starts the regressions you are able to delete all
+    	#those that does not work with your data
+   	DataChaser.LinearRegression()
+    	DataChaser.cubicRegression()
+    	DataChaser.quadraticRegression()
+    
+    	#This methods will write a new document in the output file
+    	DataChaser.store()
+```
 
 Check your output file, and remember that while more information your input file has, the library is better. 
 
