@@ -74,7 +74,7 @@ class Value(object):
         self.bottom=bottom
       elif(self.bottom>bottom and self.top>=top):
         self.bottom=bottom
-      self.value=((self.bottom+self.top)/2)
+    self.value=((self.bottom+self.top)/2)
 
   def getValue(self):
     return self.value
@@ -265,115 +265,115 @@ class Chaser(object):
                 except:
                   self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
 
-def cuadraticRegression(self):
-    file = pd.read_csv ('trainData.csv', sep=',')
-    pf = PolynomialFeatures(degree = 2)
-    result = []
-    for i in range(0,len(self.titles)):
-      indexes = []
-      for j in range(0,len(self.titles)):
-        if(i!=j):
-          X = file.iloc[:, i].values.reshape(-1, 1)  # values converts it into a numpy array
-          Y = file.iloc[:, j].values.reshape(-1, 1)  # -1 means that calculate the dimension of rows, but have 1 column
+  def quadraticRegression(self):
+      file = pd.read_csv ('trainData.csv', sep=',')
+      pf = PolynomialFeatures(degree = 2)
+      result = []
+      for i in range(0,len(self.titles)):
+        indexes = []
+        for j in range(0,len(self.titles)):
+          if(i!=j):
+            X = file.iloc[:, i].values.reshape(-1, 1)  # values converts it into a numpy array
+            Y = file.iloc[:, j].values.reshape(-1, 1)  # -1 means that calculate the dimension of rows, but have 1 column
 
-          X_1 = pf.fit_transform(X.reshape(-1,1))
-          model = LinearRegression()
-          model.fit(X_1, Y)  # perform linear regression
+            X_1 = pf.fit_transform(X.reshape(-1,1))
+            model = LinearRegression()
+            model.fit(X_1, Y)  # perform linear regression
 
-          # print(str(model.coef_))
-          unc = 1-model.score(X_1, Y)
-          if(j==0):
-            count = 0
-            for element in self.currentData[i]:
-                if(element==''):
-                  indexes.append(count)
+            # print(str(model.coef_))
+            unc = 1-model.score(X_1, Y)
+            if(j==0):
+              count = 0
+              for element in self.currentData[i]:
+                  if(element==''):
+                    indexes.append(count)
+                    try:
+                      t = (model.coef_[2])*(self.currentData[j][count].getValue())**2 + (model.coef_[1])*(self.currentData[j][count].getValue())+model.intercept_
+                      t = t[0][0]
+                      element = Value(t,t-(unc*t),t+(unc*t))
+                    except:
+                      pass
+                  count+=1
+            else:
+              self.indexes = indexes
+              for index in indexes:
+                if(self.currentData[j][index]!=''):
+                  t = (model.coef_)*(self.currentData[j][index].getValue())+model.intercept_
+                  t = t[0][0]
                   try:
-                    t = (model.coef_[2])*(self.currentData[j][count].getValue())**2 + (model.coef_[1])*(self.currentData[j][count].getValue())+model.intercept_
-                    t = t[0][0]
-                    element = Value(t,t-(unc*t),t+(unc*t))
+                    self.currentData[i][index].add(t,t-(unc*t),t+(unc*t))
                   except:
-                    pass
-                count+=1
-          else:
-            self.indexes = indexes
-            for index in indexes:
-              if(self.currentData[j][index]!=''):
-                t = (model.coef_)*(self.currentData[j][index].getValue())+model.intercept_
-                t = t[0][0]
-                try:
-                  self.currentData[i][index].add(t,t-(unc*t),t+(unc*t))
-                except:
-                  self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
+                    self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
 
-def cubicRegression(self):
-    file = pd.read_csv ('trainData.csv', sep=',')
-    pf = PolynomialFeatures(degree = 3)
-    result = []
-    for i in range(0,len(self.titles)):
-      indexes = []
-      for j in range(0,len(self.titles)):
-        if(i!=j):
-          X = file.iloc[:, i].values.reshape(-1, 1)  # values converts it into a numpy array
-          Y = file.iloc[:, j].values.reshape(-1, 1)  # -1 means that calculate the dimension of rows, but have 1 column
+  def cubicRegression(self):
+      file = pd.read_csv ('trainData.csv', sep=',')
+      pf = PolynomialFeatures(degree = 3)
+      result = []
+      for i in range(0,len(self.titles)):
+        indexes = []
+        for j in range(0,len(self.titles)):
+          if(i!=j):
+            X = file.iloc[:, i].values.reshape(-1, 1)  # values converts it into a numpy array
+            Y = file.iloc[:, j].values.reshape(-1, 1)  # -1 means that calculate the dimension of rows, but have 1 column
 
-          X_1 = pf.fit_transform(X.reshape(-1,1)) #Makes it polynomial
-          model = LinearRegression()
-          model.fit(X_1, Y)  # perform linear regression
-          unc = 1-model.score(X_1, Y)
-          if(j==0):
-            count = 0
-            for element in self.currentData[i]:
-                if(element==''):
-                  indexes.append(count)
+            X_1 = pf.fit_transform(X.reshape(-1,1)) #Makes it polynomial
+            model = LinearRegression()
+            model.fit(X_1, Y)  # perform linear regression
+            unc = 1-model.score(X_1, Y)
+            if(j==0):
+              count = 0
+              for element in self.currentData[i]:
+                  if(element==''):
+                    indexes.append(count)
+                    try:
+                      t = (model.coef_[3])*(self.currentData[j][count].getValue())**3 +(model.coef_[2])*(self.currentData[j][count].getValue())**2 + (model.coef_[1])*(self.currentData[j][count].getValue())+model.intercept_
+                      t = t[0][0]
+                      element = Value(t,t-(unc*t),t+(unc*t))
+                    except:
+                      pass
+                  count+=1
+            else:
+              self.indexes = indexes
+              for index in indexes:
+                if(self.currentData[j][index]!=''):
+                  t = (model.coef_)*(self.currentData[j][index].getValue())+model.intercept_
+                  t = t[0][0]
                   try:
-                    t = (model.coef_[3])*(self.currentData[j][count].getValue())**3 +(model.coef_[2])*(self.currentData[j][count].getValue())**2 + (model.coef_[1])*(self.currentData[j][count].getValue())+model.intercept_
-                    t = t[0][0]
-                    element = Value(t,t-(unc*t),t+(unc*t))
+                    self.currentData[i][index].add(t,t-(unc*t),t+(unc*t))
                   except:
-                    pass
-                count+=1
-          else:
-            self.indexes = indexes
-            for index in indexes:
-              if(self.currentData[j][index]!=''):
-                t = (model.coef_)*(self.currentData[j][index].getValue())+model.intercept_
-                t = t[0][0]
-                try:
-                  self.currentData[i][index].add(t,t-(unc*t),t+(unc*t))
-                except:
-                  self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
-def isLike(self,current, toCompare,param):
-    """
-    This method evaluates 2 lists and returns true if their numerical values are similar. False otherwise
-    """
-    total = 0
-    size = len(current)
-    if (size != len(toCompare)):
-      return False
-    else:
-      for i in range(size):
-          try:
-              total += abs(current[i] - toCompare[i])/current[i]
-          except:
-              total +=0
-    prom = total/size
-    if (prom <= param):
-      return True
-    else:
-      return False
+                    self.currentData[i][index] = Value(t,t-(unc*t),t+(unc*t))
+  def isLike(self,current, toCompare,param):
+      """
+      This method evaluates 2 lists and returns true if their numerical values are similar. False otherwise
+      """
+      total = 0
+      size = len(current)
+      if (size != len(toCompare)):
+        return False
+      else:
+        for i in range(size):
+            try:
+                total += abs(current[i] - toCompare[i])/current[i]
+            except:
+                total +=0
+      prom = total/size
+      if (prom <= param):
+        return True
+      else:
+        return False
 
-def relativeRegression(self):
-    data = self.Transposed(self.currentData) #Python matrix
-    a = np.array(data) #numpy matrix
-    cont = 0
-    for i in range(len(a)):
-        for j in range(len(a[i])):
-            if (a[i][j] == ''):
-                for k in a:
-                    if (self.isLike(k,a[i],0.5) and k[j] != ''):
-                        a[i][j] = k[j]
-    data = a
-    self.currentData = self.Transposed(data)
+  def relativeRegression(self):
+      data = self.Transposed(self.currentData) #Python matrix
+      a = np.array(data) #numpy matrix
+      cont = 0
+      for i in range(len(a)):
+          for j in range(len(a[i])):
+              if (a[i][j] == ''):
+                  for k in a:
+                      if (self.isLike(k,a[i],0.5) and k[j] != ''):
+                          a[i][j] = k[j]
+      data = a
+      self.currentData = self.Transposed(data)
 
   def store(self):
     """
