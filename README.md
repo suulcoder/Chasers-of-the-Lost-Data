@@ -60,7 +60,8 @@ Sublime Text and LINUX MINT
 	
 To start with DataChaser you must instantiate a class after import the library
 	
-	DataChaser = Chaser({Path of the input File} ,{Path of the output File})
+		Import DataChaser
+		DataChaser = Chaser({Path of the input File} ,{Path of the output File})
 	
 Then run the following methods of the class:
 
