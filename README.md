@@ -1,7 +1,7 @@
 # Data Chaser
 Data Chaser is a library that autocompletes empty fields in a csv file. Data Chaser uses Artifitial Intelignece based 
 on multiple regressions, updating the values based un the uncertanty of the regressions to get the new updated values and
-ranges.
+ranges.In order to fill the empty fields we noticed that regressions have uncertainty, and base on the uncertainty of differents regressions of the different categories of the csv we made a neural network to get the information
 
 ```
   Name: DataChaser
@@ -10,7 +10,7 @@ ranges.
     -Saúl Contreras (SuulCoder)
     -Luis Quezada (Lfquezada)
     -Marco Fuentes
-'Fireball_And_Bolide_Reports.csv'
+    
   Use: 
 
     This program is useful to recover the data that has been lost by
