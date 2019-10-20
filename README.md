@@ -1,7 +1,24 @@
 # Data Chaser
 Data Chaser is a library that autocompletes empty fields in a csv file. Data Chaser uses Artifitial Intelignece based 
 on multiple regressions, updating the values based un the uncertanty of the regressions to get the new updated values and
-ranges. 
+ranges.
+
+```
+  Name: DataChaser
+  Format: .py
+  Autors: 
+    -Saúl Contreras (SuulCoder)
+    -Luis Quezada (Lfquezada)
+    -Marco Fuentes
+'Fireball_And_Bolide_Reports.csv'
+  Use: 
+
+    This program is useful to recover the data that has been lost by
+    some sensors of the Nasa. This is a proyect for the SpaceApp 
+    Challege 2019. This algorithm uses a Machine Learning
+    process, libraries from Python and statistics regressions. 
+```
+
 
 ## Getting Started 🚀
 
@@ -20,10 +37,18 @@ pip3 install pandas
 pip3 install numpy
 pip install -i https://test.pypi.org/simple/ DataChaser
 ```
+Sometimes the code above does not work without addind --user after install. If that happends try this:
+```
+pip3 install --user -i https://test.pypi.org/simple/ DataChaser
+```
+
 
 ## Running ⚙️
 
 Import Library and run it.
+```
+import DataChaser
+```
 
 
 ## Build With 🛠️
