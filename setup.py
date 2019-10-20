@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
   name = 'DataChaser',
-  version = '0.2',
+  version = '1.2',
   author = 'SuulCoder',
   author_email = 'saulcontreras@acm.org',
   description = 'This packages autocompletes the information that is lost in a CSV using AI',

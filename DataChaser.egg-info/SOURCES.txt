@@ -1,0 +1,10 @@
+.DS_Store
+LICENSE
+README.md
+setup.py
+DataChaser/DataChaser.py
+DataChaser/__init__.py
+DataChaser.egg-info/PKG-INFO
+DataChaser.egg-info/SOURCES.txt
+DataChaser.egg-info/dependency_links.txt
+DataChaser.egg-info/top_level.txt
