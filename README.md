@@ -35,10 +35,6 @@ You´ll need to install using pip3 install command:
 pip3 install pandas
 pip3 install pandas
 pip3 install numpy
-pip install -i https://test.pypi.org/simple/ DataChaser
-```
-Sometimes the code above does not work without addind --user after install. If that happends try this:
-```
 pip3 install --user -i https://test.pypi.org/simple/ DataChaser
 ```
 
